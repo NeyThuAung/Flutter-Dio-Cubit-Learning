@@ -27,7 +27,7 @@ class PostDetailScreen extends StatelessWidget {
           children: [
             Text(
               textAlign: TextAlign.center,
-              "This is query parameter PostId - $postId",
+              "This is query parameter PostId  -  $postId",
             ),
             ElevatedButton(
               onPressed: () {
