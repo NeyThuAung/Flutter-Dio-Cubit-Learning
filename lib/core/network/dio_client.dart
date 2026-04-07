@@ -16,6 +16,8 @@ class DioClient {
         },
       ),
     );
+
+    _addInterceptors();
   }
 
   void _addInterceptors() {
@@ -26,7 +28,7 @@ class DioClient {
           print("Headers: ${options.headers}");
           print("Data: ${options.data}");
 
-          // 👉 Add token here (later)
+          // Add token here (later)
           // options.headers["Authorization"] = "Bearer YOUR_TOKEN";
 
           return handler.next(options);

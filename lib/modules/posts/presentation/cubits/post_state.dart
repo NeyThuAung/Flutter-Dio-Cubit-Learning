@@ -13,11 +13,10 @@ final class PostLoading extends PostState {}
 final class PostSuccess extends PostState {
   final List<Post> posts;
 
-
   PostSuccess(this.posts);
 }
 
-// Success State
+// Error State
 final class PostError extends PostState {
   final String message;
 

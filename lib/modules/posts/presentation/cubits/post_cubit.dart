@@ -8,7 +8,7 @@ part 'post_state.dart';
 class PostCubit extends Cubit<PostState> {
   final GetPosts getPosts;
 
-  PostCubit(this.getPosts) : super(PostInitial());
+  PostCubit(this.getPosts) : super(PostLoading());
 
   void fetchPosts() async {
     emit(PostLoading());

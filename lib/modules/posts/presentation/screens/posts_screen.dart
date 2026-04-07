@@ -1,7 +1,9 @@
 import 'package:dio_cubit_learning/modules/posts/di/injector.dart';
 import 'package:dio_cubit_learning/modules/posts/presentation/cubits/post_cubit.dart';
+import 'package:dio_cubit_learning/modules/posts/presentation/screens/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class PostPage extends StatelessWidget {
   const PostPage({super.key});
@@ -24,22 +26,34 @@ class _PostView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Posts"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              String name = "KDJFJFKG";
+              // Normal Route with Path Parameter
+              // context.go("/history/$name");
+
+              // Named Route with Path Parameter
+              context.pushNamed(
+                RouteName.history,
+                pathParameters: {"name": name},
+              );
+            },
+            icon: Icon(Icons.history),
+          ),
+        ],
       ),
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
-          // 🔄 Loading
+          // Loading
           if (state is PostLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
-          // ✅ Success
+          // Success
           if (state is PostSuccess) {
             if (state.posts.isEmpty) {
-              return const Center(
-                child: Text("No posts found"),
-              );
+              return const Center(child: Text("No posts found"));
             }
 
             return RefreshIndicator(
@@ -60,6 +74,14 @@ class _PostView extends StatelessWidget {
                         child: Text(post.postId.toString()),
                       ),
                       title: Text(post.title),
+                      onTap: () {
+                        // GoRouter.of(context).go("/details");
+                        // context.go("/details");
+                        context.goNamed(
+                          RouteName.details,
+                          queryParameters: {"postId": post.postId.toString()},
+                        );
+                      },
                     ),
                   );
                 },
@@ -67,16 +89,13 @@ class _PostView extends StatelessWidget {
             );
           }
 
-          // ❌ Error
+          // Error
           if (state is PostError) {
             return Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    state.message,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(state.message, textAlign: TextAlign.center),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {
@@ -89,7 +108,7 @@ class _PostView extends StatelessWidget {
             );
           }
 
-          // 🟡 Initial
+          // Initial
           return Center(
             child: ElevatedButton(
               onPressed: () {
